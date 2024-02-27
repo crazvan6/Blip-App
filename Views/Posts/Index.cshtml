@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="alert p-3 rounded-3 text-center mb-5 @ViewBag.Alert">
+        @ViewBag.Message
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            @using (Html.BeginForm("UploadImage", "Posts", FormMethod.Post, new { enctype = "multipart/form-data"}))
+            {
+
+                <div class="mb-3">
+                    @Html.TextBox("Content", null, new { @class = "form-control border-0", style = "height: 100px;", placeholder = "What's blippin?" })
+                    @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col">
+                                        <input type="file" class="custom-file-input" id="PostImage" name="PostImage" hidden/>
+                                        <label class="custom-file-label" for="PostImage">
+                                            <i class="bi bi-image" style="cursor: pointer; font-size: 1.63em;"></i>
+                                        </label>
+                                        <span id="file-chosen1">No file chosen</span>
+                                </div>
+
+                            <div class="form-group col">
+                                        <input type="file" class="custom-file-input" id="PostVideo" name="PostVideo" hidden/>
+                                        <label class="custom-file-label" for="PostVideo">
+                                            <i class="bi bi-camera-video" style="cursor: pointer; font-size: 1.77em;"></i>
+                                        </label>
+                                <span id="file-chosen2">No file chosen</span>
+
+                            </div>
+                        </div>
+
+                        </div>
+                        <br />
+
+
+                </div>
+
+
+                <input class="btn btn-secondary rounded-pill" type="submit" value="Upload" />
+            }
+
+
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        @foreach (BlipApp.Models.Post post in ViewBag.Posts)
+        {
+            <div class="mb-4">
+                <div class="card" onclick="window.location.href='/Posts/Show/@post.Id'" style="cursor:pointer">
+                    @Html.Partial("PostInfo", post)
+
+                    <div class="position-absolute bottom-0 end-0 mt-2">
+                        <a class="btn btn-secondary border-0" href="/Posts/Edit/@post.Id">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
